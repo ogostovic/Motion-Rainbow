@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-BLUR_KERNEL_SIZE = (1, 1)
+BLUR_KERNEL_SIZE = (3, 3)
 ROYGBIV_PALETTE_BGR = np.array([
     [0,   0, 0],      # black
     [211,   0, 0],  # violet
