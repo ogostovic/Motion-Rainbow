@@ -5,38 +5,38 @@ BLUR_KERNEL_SIZE = (11, 11)
 DOWNSCALE_FACTOR = 0.25
 WATERSHED_INTERVAL = 1
 ERODE_ITERATIONS = 10
-DILATE_ITERATIONS = 4
-# ROYGBIV_PALETTE_BGR = np.array([
-#     [0, 0, 139],      # dark red
-#     [0, 0, 180],      # crimson
-#     [0, 0, 255],      # pure red
-#     [0, 45, 255],     # red-orange
-#     [0, 100, 255],    # orange
-#     [0, 140, 255],    # deep orange
-#     [0, 165, 255],    # orange
-#     [0, 200, 255],    # amber
-#     [0, 215, 255],    # gold
-#     [0, 255, 255],    # yellow
-#     [20, 230, 255],   # light yellow
-#     [100, 150, 255],  # peach
-#     [130, 100, 255],  # salmon
-#     [140, 80, 220],   # coral
-#     [180, 105, 255],  # hot pink
-#     [200, 130, 255],  # light pink
-#     [210, 180, 255],  # pale pink
-#     [147, 20, 255],   # deep pink
-#     [180, 0, 210],    # magenta-pink
-#     [130, 0, 255],    # rose
-#     [0, 0, 0],        # black
-# ], dtype=np.uint8)
-
+DILATE_ITERATIONS = 0
 ROYGBIV_PALETTE_BGR = np.array([
-    [0, 0, 10],        # black
-    [94, 64, 64],
-    [128, 138, 128],
-    [192, 192, 222],
-    [255, 245, 245],
+    [0, 0, 139],      # dark red
+    [0, 0, 180],      # crimson
+    [0, 0, 255],      # pure red
+    [0, 45, 255],     # red-orange
+    [0, 100, 255],    # orange
+    [0, 140, 255],    # deep orange
+    [0, 165, 255],    # orange
+    [0, 200, 255],    # amber
+    [0, 215, 255],    # gold
+    [0, 255, 255],    # yellow
+    [20, 230, 255],   # light yellow
+    [100, 150, 255],  # peach
+    [130, 100, 255],  # salmon
+    [140, 80, 220],   # coral
+    [180, 105, 255],  # hot pink
+    [200, 130, 255],  # light pink
+    [210, 180, 255],  # pale pink
+    [147, 20, 255],   # deep pink
+    [180, 0, 210],    # magenta-pink
+    [130, 0, 255],    # rose
+    [0, 0, 0],        # black
 ], dtype=np.uint8)
+
+# ROYGBIV_PALETTE_BGR = np.array([
+#     [0, 0, 10],        # black
+#     [94, 64, 64],
+#     [128, 138, 128],
+#     [192, 192, 222],
+#     [255, 245, 245],
+# ], dtype=np.uint8)
 
 
 
