@@ -10,11 +10,27 @@ MORPH_KERNEL_SIZE = (3, 3)
 ERODE_KERNEL = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
 MORPH_SHAPE = cv2.MORPH_RECT
 ROYGBIV_PALETTE_BGR = np.array([
-    [0, 0, 10],
-    [94, 64, 64],
-    [128, 138, 128],
-    [192, 192, 222],
-    [255, 245, 245],
+    [0, 0, 139],      # dark red
+    [0, 0, 180],      # crimson
+    [0, 0, 255],      # pure red
+    [0, 45, 255],     # red-orange
+    [0, 100, 255],    # orange
+    [0, 140, 255],    # deep orange
+    [0, 165, 255],    # orange
+    [0, 200, 255],    # amber
+    [0, 215, 255],    # gold
+    [0, 255, 255],    # yellow
+    [20, 230, 255],   # light yellow
+    [100, 150, 255],  # peach
+    [130, 100, 255],  # salmon
+    [140, 80, 220],   # coral
+    [180, 105, 255],  # hot pink
+    [200, 130, 255],  # light pink
+    [210, 180, 255],  # pale pink
+    [147, 20, 255],   # deep pink
+    [180, 0, 210],    # magenta-pink
+    [130, 0, 255],    # rose
+    [0, 0, 0],        # black
 ], dtype=np.uint8)
 
 
@@ -29,28 +45,17 @@ def colorize_labels(label_map: np.ndarray) -> np.ndarray:
     return output
 
 
-def fill_regions_with_average_color(frame: np.ndarray, region_mask: np.ndarray) -> np.ndarray:
+def fill_regions_with_palette(region_mask: np.ndarray) -> np.ndarray:
     _, labels = cv2.connectedComponents(region_mask.astype(np.uint8))
-    flattened_labels = labels.ravel()
-    flattened_frame = frame.reshape(-1, 3)
+    output = np.zeros((*region_mask.shape, 3), dtype=np.uint8)
 
-    num_labels = flattened_labels.max() + 1
-    counts = np.bincount(flattened_labels, minlength=num_labels)
-    sums = np.zeros((num_labels, 3), dtype=np.uint64)
-    for channel in range(3):
-        sums[:, channel] = np.bincount(
-            flattened_labels,
-            weights=flattened_frame[:, channel].astype(np.uint64),
-            minlength=num_labels,
-        )
+    for label in np.unique(labels):
+        if label == 0:
+            continue
+        color = ROYGBIV_PALETTE_BGR[label % ROYGBIV_PALETTE_BGR.shape[0]]
+        output[labels == label] = color
 
-    means = np.zeros((num_labels, 3), dtype=np.uint8)
-    nonzero = counts > 0
-    means[nonzero] = (sums[nonzero] / counts[nonzero, None]).astype(np.uint8)
-
-    filled = means[flattened_labels].reshape(frame.shape)
-    filled[labels == 0] = 0
-    return filled
+    return output
 
 
 def main() -> None:
@@ -81,11 +86,11 @@ def main() -> None:
         inverted = cv2.bitwise_not(closed_edges)
         thick_inverted = cv2.erode(inverted, ERODE_KERNEL, iterations=1)
 
-        # Build a mask of region interiors and fill each region with its average color.
+        # Build a mask of region interiors and fill each region with a fixed palette color.
         region_mask = thick_inverted > 250
-        averaged_regions = fill_regions_with_average_color(frame, region_mask)
+        colored_regions = fill_regions_with_palette(region_mask)
 
-        cv2.imshow("bloop", averaged_regions)
+        cv2.imshow("bloop", colored_regions)
 
         if cv2.waitKey(4) & 0xFF == ord("q"):
             break
